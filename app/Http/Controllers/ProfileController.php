@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Services\ImageUploader;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,8 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    public function __construct(private readonly ImageUploader $images) {}
+
     /**
      * Display the user's profile form.
      */
@@ -26,13 +29,24 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->safe()->only(['name', 'username', 'email', 'birthday', 'bio']));
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        if ($request->hasFile('avatar')) {
+            // De oude foto verdwijnt van de schijf zodra de nieuwe bewaard is.
+            $this->images->delete($user->avatar_path);
+            $user->avatar_path = $this->images->store($request->file('avatar'), 'avatars');
+        } elseif ($request->boolean('remove_avatar')) {
+            $this->images->delete($user->avatar_path);
+            $user->avatar_path = null;
+        }
+
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -50,6 +64,7 @@ class ProfileController extends Controller
 
         Auth::logout();
 
+        $this->images->delete($user->avatar_path);
         $user->delete();
 
         $request->session()->invalidate();

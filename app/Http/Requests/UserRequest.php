@@ -6,16 +6,26 @@ use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
-class ProfileUpdateRequest extends FormRequest
+/**
+ * Validatie voor het handmatig aanmaken en bewerken van gebruikers door een
+ * admin. Bij het bewerken is een nieuw wachtwoord optioneel.
+ */
+class UserRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return true;
+    }
+
     /**
-     * Get the validation rules that apply to the request.
-     *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
+        $user = $this->route('user');
+
         return [
             'name' => ['required', 'string', 'max:255'],
             'username' => [
@@ -23,10 +33,8 @@ class ProfileUpdateRequest extends FormRequest
                 'string',
                 'min:3',
                 'max:30',
-                // Enkel letters, cijfers, streepjes en underscores: de username
-                // komt in de URL van de publieke profielpagina terecht.
                 'regex:/^[A-Za-z0-9_-]+$/',
-                Rule::unique(User::class)->ignore($this->user()->id),
+                Rule::unique(User::class)->ignore($user?->id),
             ],
             'email' => [
                 'required',
@@ -34,12 +42,12 @@ class ProfileUpdateRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
+                Rule::unique(User::class)->ignore($user?->id),
             ],
+            'password' => [$user ? 'nullable' : 'required', 'confirmed', Password::defaults()],
             'birthday' => ['nullable', 'date', 'before:today', 'after:1900-01-01'],
             'bio' => ['nullable', 'string', 'max:1000'],
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
-            'remove_avatar' => ['nullable', 'boolean'],
+            'is_admin' => ['nullable', 'boolean'],
         ];
     }
 
@@ -52,9 +60,10 @@ class ProfileUpdateRequest extends FormRequest
             'name' => 'naam',
             'username' => 'gebruikersnaam',
             'email' => 'e-mailadres',
+            'password' => 'wachtwoord',
             'birthday' => 'verjaardag',
             'bio' => 'over mij',
-            'avatar' => 'profielfoto',
+            'is_admin' => 'beheerder',
         ];
     }
 

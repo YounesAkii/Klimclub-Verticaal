@@ -32,12 +32,23 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            // De gebruikersnaam komt in de URL van de publieke profielpagina,
+            // vandaar de beperking tot letters, cijfers, - en _.
+            'username' => ['required', 'string', 'min:3', 'max:30', 'regex:/^[A-Za-z0-9_-]+$/', 'unique:'.User::class],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'username.regex' => 'De gebruikersnaam mag enkel letters, cijfers, koppeltekens en underscores bevatten.',
+        ], [
+            'name' => 'naam',
+            'username' => 'gebruikersnaam',
+            'email' => 'e-mailadres',
+            'password' => 'wachtwoord',
         ]);
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
