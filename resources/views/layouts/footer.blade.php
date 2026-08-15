@@ -44,7 +44,7 @@
         </div>
 
         <div class="mt-10 flex flex-col gap-3 border-t border-slate-800 pt-6 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-            <p>&copy; {{ now()->year }} Klimclub Verticaal. Schoolproject Web Advanced.</p>
+            <p>&copy; {{ now()->year }} Klimclub Verticaal. Schoolproject Backend Web.</p>
             <div class="flex gap-4">
                 <a href="{{ route('faq.index') }}" class="transition hover:text-slate-300">Veelgestelde vragen</a>
                 <a href="{{ route('news.index') }}" class="transition hover:text-slate-300">Nieuws</a>

@@ -1,7 +1,7 @@
 # Klimclub Verticaal
 
 Website voor een fictieve klimclub in Anderlecht, gebouwd met **Laravel 13**.
-Dit is mijn project voor het opleidingsonderdeel Web Advanced.
+Dit is mijn project voor het opleidingsonderdeel Backend Web.
 
 De site is volledig data driven: nieuws, FAQ, trainingen, gebruikers en
 contactberichten komen allemaal uit de databank en worden beheerd via een
