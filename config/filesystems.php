@@ -33,7 +33,10 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            // Uit: deze disk bevat geen bestanden die publiek geserveerd moeten
+            // worden. De afbeeldingen van de site staan op de 'public' disk en
+            // worden via de symlink public/storage bediend.
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],

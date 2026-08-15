@@ -7,10 +7,11 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
+    // De standaard health-route /up is bewust weggelaten: die wordt hier niet
+    // gebruikt en zou de enige route zijn die niet naar een controller wijst.
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
         commands: __DIR__.'/../routes/console.php',
-        health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([

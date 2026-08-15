@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Throwable;
 
 class DatabaseSeeder extends Seeder
 {
@@ -43,8 +44,18 @@ class DatabaseSeeder extends Seeder
             return;
         }
 
-        Artisan::call('storage:link');
-
-        $this->command?->info('public/storage aangemaakt (storage:link).');
+        // Mislukt het aanmaken van de link (bijvoorbeeld door beperkte rechten
+        // op het bestandssysteem), dan mag het seeden daar niet op stuklopen.
+        // De data komt er dan gewoon in, enkel de afbeeldingen ontbreken tot
+        // "php artisan storage:link" handmatig gedraaid wordt.
+        try {
+            Artisan::call('storage:link');
+            $this->command?->info('public/storage aangemaakt (storage:link).');
+        } catch (Throwable $e) {
+            $this->command?->warn(
+                'Kon public/storage niet aanmaken: ' . $e->getMessage()
+                . ' Draai "php artisan storage:link" handmatig om de afbeeldingen te tonen.'
+            );
+        }
     }
 }
