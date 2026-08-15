@@ -14,9 +14,17 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            // De publieke naam die de gebruiker zelf kiest voor op het profiel.
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            // Profielvelden: allemaal optioneel in te vullen door de gebruiker.
+            $table->date('birthday')->nullable();
+            $table->string('avatar_path')->nullable();
+            $table->text('bio')->nullable();
+            // Rolonderscheid: een account is een gewone gebruiker of een admin.
+            $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
