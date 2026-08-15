@@ -1,0 +1,11 @@
+<?php
+
+return [
+
+    'reset' => 'Je wachtwoord is opnieuw ingesteld.',
+    'sent' => 'We hebben je een e-mail gestuurd met een link om je wachtwoord opnieuw in te stellen.',
+    'throttled' => 'Wacht even voor je het opnieuw probeert.',
+    'token' => 'Deze link om je wachtwoord opnieuw in te stellen is niet meer geldig.',
+    'user' => 'We vinden geen gebruiker met dat e-mailadres.',
+
+];
