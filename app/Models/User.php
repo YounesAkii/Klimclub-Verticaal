@@ -72,6 +72,7 @@ class User extends Authenticatable
     public function trainings(): BelongsToMany
     {
         return $this->belongsToMany(Training::class)
+            ->using(TrainingRegistration::class)
             ->withPivot('registered_at')
             ->withTimestamps();
     }

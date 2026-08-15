@@ -2,7 +2,9 @@
 
 {{-- Kleine herbruikbare verwijderknop. De POST gebeurt met @method('DELETE') en
      een CSRF-token; de bevestiging voorkomt een ongeluk met één klik. --}}
-<form method="POST" action="{{ $action }}" onsubmit="return confirm('{{ $confirm }}');"
+{{-- @js() zet de tekst om naar een veilige JavaScript-string, zodat een titel
+     met een apostrof het bevestigingsvenster niet stukmaakt. --}}
+<form method="POST" action="{{ $action }}" onsubmit="return confirm(@js($confirm));"
       {{ $attributes->merge(['class' => 'inline']) }}>
     @csrf
     @method('DELETE')

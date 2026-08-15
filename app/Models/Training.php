@@ -41,6 +41,7 @@ class Training extends Model
     public function participants(): BelongsToMany
     {
         return $this->belongsToMany(User::class)
+            ->using(TrainingRegistration::class)
             ->withPivot('registered_at')
             ->withTimestamps();
     }
