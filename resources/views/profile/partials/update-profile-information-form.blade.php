@@ -56,7 +56,7 @@
                 <div class="flex-1 min-w-64">
                     <input id="avatar" name="avatar" type="file" accept="image/jpeg,image/png,image/webp"
                            class="block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800">
-                    <p class="mt-1 text-xs text-slate-500">JPG, PNG of WebP, maximaal 2 MB.</p>
+                    <p class="mt-1 text-xs text-slate-500">JPG, PNG of WebP, maximaal 1,5 MB.</p>
                     <x-input-error :messages="$errors->get('avatar')" />
                 </div>
             </div>

@@ -39,7 +39,9 @@ class NewsItemRequest extends FormRequest
             ],
             // Bij het aanmaken is een afbeelding verplicht; bij het bewerken mag
             // de bestaande afbeelding blijven staan.
-            'image' => [$newsItem ? 'nullable' : 'required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:4096'],
+            // Zie ProfileUpdateRequest: 1536 KB blijft onder de standaard
+            // upload_max_filesize van PHP (2M).
+            'image' => [$newsItem ? 'nullable' : 'required', 'image', 'mimes:jpeg,jpg,png,webp', 'max:1536'],
         ];
     }
 

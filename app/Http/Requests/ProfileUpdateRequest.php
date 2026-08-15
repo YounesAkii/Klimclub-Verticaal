@@ -38,7 +38,10 @@ class ProfileUpdateRequest extends FormRequest
             ],
             'birthday' => ['nullable', 'date', 'before:today', 'after:1900-01-01'],
             'bio' => ['nullable', 'string', 'max:1000'],
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
+            // 1536 KB blijft onder de standaard upload_max_filesize van PHP (2M),
+            // zodat een te groot bestand hier een duidelijke melding oplevert in
+            // plaats van door PHP zelf geweigerd te worden.
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:1536'],
             'remove_avatar' => ['nullable', 'boolean'],
         ];
     }

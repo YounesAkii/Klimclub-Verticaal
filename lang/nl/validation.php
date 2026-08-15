@@ -98,7 +98,9 @@ return [
     'starts_with' => ':attribute moet beginnen met een van de volgende: :values.',
     'string' => ':attribute moet tekst zijn.',
     'unique' => ':attribute is al in gebruik.',
-    'uploaded' => 'Het uploaden van :attribute is mislukt.',
+    // Deze regel slaat aan wanneer PHP het bestand al geweigerd heeft, meestal
+    // omdat het groter is dan upload_max_filesize in php.ini.
+    'uploaded' => 'Het uploaden van :attribute is mislukt. Het bestand is waarschijnlijk te groot voor de server.',
     'url' => ':attribute moet een geldige URL zijn.',
 
     'password' => [

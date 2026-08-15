@@ -63,7 +63,7 @@
                    @required(! $newsItem->exists)
                    class="mt-2 block w-full text-sm text-slate-600 file:mr-3 file:rounded-md file:border-0 file:bg-slate-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-slate-800">
             <p class="mt-1 text-xs text-slate-500">
-                JPG, PNG of WebP, maximaal 4 MB.
+                JPG, PNG of WebP, maximaal 1,5 MB.
                 @if ($newsItem->exists) Laat leeg om de huidige afbeelding te behouden. @endif
             </p>
             <x-input-error :messages="$errors->get('image')" />

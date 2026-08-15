@@ -59,6 +59,13 @@ Surf daarna naar <http://localhost:8000>.
 Benodigde PHP-extensies: `pdo_mysql`, `mbstring`, `openssl`, `fileinfo`, `gd`,
 `zip`, `curl`, `intl`. Die staan standaard aan in de meeste PHP-installaties.
 
+**Uploads.** Profielfoto's en nieuwsafbeeldingen zijn beperkt tot 1,5 MB. Die
+grens ligt bewust onder de standaardwaarde van `upload_max_filesize` in
+`php.ini` (2M), zodat een te groot bestand een duidelijke melding in het
+formulier geeft in plaats van door PHP zelf geweigerd te worden. Wil je grotere
+bestanden toelaten, verhoog dan `upload_max_filesize` en `post_max_size` in
+`php.ini` én de `max:`-regel in `ProfileUpdateRequest` en `NewsItemRequest`.
+
 ---
 
 ## Installatie
