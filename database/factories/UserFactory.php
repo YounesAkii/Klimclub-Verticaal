@@ -24,11 +24,17 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->name();
+
         return [
-            'name' => fake()->name(),
+            'name' => $name,
+            'username' => Str::lower(Str::slug($name, '')) . fake()->unique()->numberBetween(10, 9999),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'birthday' => fake()->dateTimeBetween('-55 years', '-16 years'),
+            'bio' => fake()->optional(0.7)->paragraph(),
+            'is_admin' => false,
             'remember_token' => Str::random(10),
         ];
     }
@@ -40,6 +46,16 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Maak van deze gebruiker een beheerder.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_admin' => true,
         ]);
     }
 }
