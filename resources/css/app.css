@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    /* Voorkomt dat Alpine-elementen kort zichtbaar zijn voor Alpine geladen is. */
+    [x-cloak] {
+        display: none !important;
+    }
+
+    /* Anker-links (bijvoorbeeld naar #reacties) stoppen niet meer onder de rand. */
+    html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5rem;
+    }
+}
+
+@layer components {
+    /* Opmaak voor tekstblokken die uit de databank komen (nieuws, trainingen). */
+    .prose-club p {
+        @apply mb-4 leading-relaxed text-slate-700;
+    }
+
+    .prose-club p:last-child {
+        @apply mb-0;
+    }
+}

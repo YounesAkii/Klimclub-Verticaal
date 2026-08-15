@@ -18,12 +18,15 @@ class PasswordController extends Controller
         $validated = $request->validateWithBag('updatePassword', [
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
+        ], attributes: [
+            'current_password' => 'huidig wachtwoord',
+            'password' => 'nieuw wachtwoord',
         ]);
 
         $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
 
-        return back()->with('status', 'password-updated');
+        return back()->with('status', 'Je wachtwoord is aangepast.');
     }
 }
