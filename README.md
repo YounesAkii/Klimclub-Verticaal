@@ -318,7 +318,16 @@ requests (`app/Http/Requests`), het opslaan en verwijderen van uploads in
 ### Afbeeldingen
 
 Uploads komen op de `public` disk (`storage/app/public`) terecht met een door
-Laravel gegenereerde unieke bestandsnaam. De voorbeeldafbeeldingen die met de
+Laravel gegenereerde unieke bestandsnaam.
+
+> **Waarom `AppServiceProvider` aan `ServeCommand` raakt.** `php artisan serve`
+> start de ingebouwde webserver van PHP op met een beperkte set
+> omgevingsvariabelen, waar `TMP` en `TEMP` niet in zitten. Op Windows heeft PHP
+> die net nodig om te bepalen waar een upload eerst tijdelijk geschreven wordt.
+> Zonder die variabelen mislukt elke upload met `UPLOAD_ERR_NO_TMP_DIR`. De
+> `AppServiceProvider` voegt ze daarom toe aan
+> `ServeCommand::$passthroughVariables`, zodat uploads ook via `artisan serve`
+> werken. De voorbeeldafbeeldingen die met de
 seeders meekomen staan in `database/seeders/assets` en worden bij het seeden
 naar diezelfde disk gekopieerd. Ze zijn met PHP GD gegenereerd, dus er is geen
 internetverbinding nodig om de site te vullen.
